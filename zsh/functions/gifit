@@ -1,0 +1,8 @@
+# Make directory and change into it.
+#
+
+function gifit() {
+    FPS=25
+    MAXRES=600x400
+    ffmpeg -i "$1" -s ${MAXRES} -pix_fmt rgb24 -f gif - | gifsicle --optimize=3 --delay=3 > "$1.gif"
+}

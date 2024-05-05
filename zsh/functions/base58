@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+
+base58() {
+    let i=1
+    let LEN=0
+
+    if [ -z "$1" ] 
+    then
+        echo "Usage: base58 <length>"
+        return
+    else
+        ((LEN=$1))
+    fi
+
+    if ((0 > $LEN))
+    then
+        echo "Length is out of range.  0 - 32.  Received $LEN"
+        echo "Usage: base58 <length>"
+        return
+    fi
+
+    if ((32 < $LEN))
+    then
+        echo "-Length is out of range.  0 - 32.  Received $LEN"
+        echo "Usage: base58 <length>"
+        return
+    fi
+
+    CHAR_OPTIONS="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+
+    while (true)
+    do
+        echo -n ${CHAR_OPTIONS[$(($RANDOM%${#CHAR_OPTIONS[@]}+1))]}
+
+        if (($i >= $LEN))
+        then
+            break
+        else
+            i=$(($i + 1)) 
+        fi
+    done
+    echo
+}

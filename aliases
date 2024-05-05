@@ -1,0 +1,60 @@
+# File listing
+which exa > /dev/null
+
+if [ $? -eq 0 ]; then
+  alias ls='exa'
+else
+  alias ls='ls --color=auto'
+fi
+
+alias ll="ls -al"
+alias ln="ln -v"
+alias mkdir="mkdir -p"
+alias e="$EDITOR"
+alias v="$VISUAL"
+alias path='echo $PATH | tr -s ":" "\n"' # Pretty print the path
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias -- -="cd -"
+alias home="clear && cd \$1" # reset terminatl
+alias add2path="export PATH=$PATH:$PWD" # add current directory to path
+alias brews='brew list -1' # list all of the brews installed
+alias serve='python -m SimpleHTTPServer 3200' # serve current directory on port 3200 via http
+alias pull='git pull origin master' # pull from master"
+alias gb='git branch' # git branch
+alias gba='git branch -a' # git branch
+alias gc='git commit -v' # git commit with detail in commit editor
+alias gd='git diff | less -r'
+alias gl='git pull'
+alias gp='git push'
+alias gst='git status -sb'
+alias keys='ssh-add -l'
+alias tf='terraform' # terraform
+alias tfw='terraform workspace' # terraform
+alias tfls='terraform workspace list' # terraform
+alias tfp='terraform plan' # terraform
+alias tfa='terraform apply' # terraform
+
+# remove cache and build new cache
+alias cmr="rm -rf build && cmake -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+
+# remove cache and build new cache using vcpkg
+alias cmrv="cmr -DTESTING=ON -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake"
+alias cmb="cmake --build build --parallel 6" # build default
+alias cmbc="cmb --target clean " # build clean
+alias cmba="cmbc;cmb" # build again
+alias cmt="cmb --target all --target test" # build and run tests
+alias cmi="cmb --target all --target install" # build and run install
+alias cmo="cmake -L build" # list cmake options
+
+# Include custom aliases
+if [[ -f ~/.aliases.private ]]; then
+  source ~/.aliases.private
+fi
+
+if [[ -f ~/.aliases.local ]]; then
+  source ~/.aliases.local
+fi
+
+# vim:set tw=0:

@@ -1,0 +1,32 @@
+#!/usr/bin/env zsh
+
+CURRENT_BASENAME=$(basename $(pwd))
+CURRENT_DIR=$(pwd)
+FOUND_GIT=0
+
+# find the directory that has a .git directory
+while [ "$CURRENT_DIR" != "/" ]
+do
+if [ -d "$CURRENT_DIR/.git" ]
+then
+        FOUND_GIT=1
+        break
+    fi
+    CURRENT_DIR=$(dirname $CURRENT_DIR)
+done
+
+if [ $FOUND_GIT -eq 1 ]
+then
+    DIR=$(basename $CURRENT_DIR)
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    echo "$DIR $BRANCH"
+    exit 0
+fi
+
+if [ "$(pwd)" = "$HOME" ]
+then
+    echo " ~ "
+    exit 0
+fi
+
+echo $CURRENT_BASENAME

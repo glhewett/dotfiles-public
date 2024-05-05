@@ -1,0 +1,3 @@
+EXCLUDES="CODE_OF_CONDUCT.md README*.md LICENSE"
+DOTFILES_DIRS="$HOME/repos/dotfiles-public"
+COPY_ALWAYS="git_template/HEAD"

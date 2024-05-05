@@ -1,0 +1,54 @@
+[[keyboard.bindings]]
+action = "Paste"
+key = "v"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "c"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ToggleSimpleFullscreen"
+key = "Return"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "Return"
+mods = "Command | Shift"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = 0
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0002&"
+key = "W"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0002c"
+key = "T"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0002n"
+key = "}"
+mods = "Command | Shift"
+
+[[keyboard.bindings]]
+chars = "\u0002p"
+key = "{"
+mods = "Command | Shift"

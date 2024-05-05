@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+read -s -p "Enter the password to hash: " PASS
+echo
+echo -n $PASS | iconv -t UTF-16LE | openssl md4 -binary | xxd -p

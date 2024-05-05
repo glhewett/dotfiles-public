@@ -1,0 +1,13 @@
+[alias]
+b = "build"
+c = "check"
+t = "test"
+r = "run"
+rr = "run --release"
+
+[cargo-new]
+vcs = "git"
+
+[term]
+quiet = false
+verbose = false

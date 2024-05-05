@@ -1,0 +1,2 @@
+export CARGO_INSTALL_ROOT=$HOME/local
+

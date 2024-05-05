@@ -1,0 +1,1 @@
+export VCPKG_FEATURE_FLAGS=manifests,binarycaching

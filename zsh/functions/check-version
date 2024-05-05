@@ -1,0 +1,32 @@
+function checkVersion()
+{
+  if [ -e "$CHECK_VERSION_FILE" ]; then
+    . "$CHECK_VERSION_FILE"
+  else
+    echo "\$CHECK_VERSION_FILE is not set or the file does not exist."
+    exit 1
+  fi
+
+  # current running script
+  CHECK_VERSION_NAME=$1
+  CHECK_VERSION_VERSION_NUMBER=$2
+  CHECK_VERSION_NAME=${(U)CHECK_VERSION_NAME}
+  CHECK_VERSION_NAME=${CHECK_VERSION_NAME//-/_}
+  CHECK_VERSION_VAR_NAME=CHECK_VERSION__${CHECK_VERSION_NAME}
+  CHECK_VERSION_LAST_INSTALLED=$(eval "echo \$$CHECK_VERSION_VAR_NAME")
+
+  if [ "$CHECK_VERSION_LAST_INSTALLED" = "$CHECK_VERSION_VERSION_NUMBER" ]; then
+    echo "$CHECK_VERSION_NAME is up to date: version $CHECK_VERSION_VERSION_NUMBER"
+    exit 0
+  else
+    echo "$CHECK_VERSION_NAME is installing version $CHECK_VERSION_VERSION_NUMBER"
+  fi
+}
+
+function updateVersion()
+{
+  TMP_FILE=$(mktemp)
+  grep -v $CHECK_VERSION_VAR_NAME "$CHECK_VERSION_FILE" > "$TMP_FILE"
+  echo "$CHECK_VERSION_VAR_NAME=$CHECK_VERSION_VERSION_NUMBER" >> "$TMP_FILE"
+  mv "$TMP_FILE" "$CHECK_VERSION_FILE"
+}

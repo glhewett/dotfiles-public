@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+# update the tmux window name during an ssh session.  Once ssh ends, we should
+# reset the state of the window name.
+ssh() {
+  tmux rename-window "{ $* }"
+  command ssh "$@"
+  tmux set automatic-rename on
+}
