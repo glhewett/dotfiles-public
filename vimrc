@@ -26,7 +26,6 @@ if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endif
 
-
 " Load matchit.vim, but only if the user hasn't installed a newer version.
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
@@ -59,21 +58,21 @@ augroup vimrcEx
 augroup END
 
 " ALE linting events
-augroup ale
-  autocmd!
-
-  if g:has_async
-    autocmd VimEnter *
-      \ set updatetime=1000 |
-      \ let g:ale_lint_on_text_changed = 0
-    autocmd CursorHold * call ale#Queue(0)
-    autocmd CursorHoldI * call ale#Queue(0)
-    autocmd InsertEnter * call ale#Queue(0)
-    autocmd InsertLeave * call ale#Queue(0)
-  else
-    echoerr "The thoughtbot dotfiles require NeoVim or Vim 8"
-  endif
-augroup END
+" augroup ale
+"   autocmd!
+"
+"   if g:has_async
+"     autocmd VimEnter *
+"       \ set updatetime=1000 |
+"       \ let g:ale_lint_on_text_changed = 0
+"     autocmd CursorHold * call ale#Queue(0)
+"     autocmd CursorHoldI * call ale#Queue(0)
+"     autocmd InsertEnter * call ale#Queue(0)
+"     autocmd InsertLeave * call ale#Queue(0)
+"   else
+"     echoerr "The thoughtbot dotfiles require NeoVim or Vim 8"
+"   endif
+" augroup END
 
 " When the type of shell script is /bin/sh, assume a POSIX-compatible
 " shell for syntax highlighting purposes.
@@ -188,18 +187,18 @@ function! AppendModeline()
 endfunction
 
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
-endfunction
+" function! LinterStatus() abort
+"     let l:counts = ale#statusline#Count(bufnr(''))
+"
+"     let l:all_errors = l:counts.error + l:counts.style_error
+"     let l:all_non_errors = l:counts.total - l:all_errors
+"
+"     return l:counts.total == 0 ? 'OK' : printf(
+"     \   '%dW %dE',
+"     \   all_non_errors,
+"     \   all_errors
+"     \)
+" endfunction
 
 set statusline+=%#warningmsg#
 set statusline+=%{LinterStatus()}
@@ -245,7 +244,7 @@ autocmd BufNewFile *.hpp 0r ~/.skeletons/cpp.hpp
 " end configure vim format
 
 " configure colors
-colorscheme Tomorrow-Night
+colorscheme tokyonight
 " end configure colors
 
 set tags=./tags;/
@@ -279,6 +278,24 @@ if executable("rg")
     set grepformat=%f:%l:%c:%m,%f:%l:%m
     let g:ackprg='rg --vimgrep --no-heading --smart-case'
 endif
+
+function! EnterPasteMode() abort
+  set nonumber paste
+  "GitGutterDisable()
+endfunction
+
+function! ExitPasteMode() abort
+  set number nopaste
+  "GitGutterEnable()
+endfunction
+
+" let g:ale_linters = {
+" \ 'cs': ['OmniSharp']
+" \}
+
+" these two changes put me in the mode where I can copy and paste
+:nnoremap <leader>n :call EnterPasteMode()<cr>
+:nnoremap <leader>N :call ExitPasteMode()<cr>
 
 " Local config
 if filereadable($HOME . "/.vimrc.private")

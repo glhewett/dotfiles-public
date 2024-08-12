@@ -21,7 +21,7 @@ alias home="clear && cd \$1" # reset terminatl
 alias add2path="export PATH=$PATH:$PWD" # add current directory to path
 alias brews='brew list -1' # list all of the brews installed
 alias serve='python -m SimpleHTTPServer 3200' # serve current directory on port 3200 via http
-alias pull='git pull origin master' # pull from master"
+alias pull='git pull origin main' # pull from master"
 alias gb='git branch' # git branch
 alias gba='git branch -a' # git branch
 alias gc='git commit -v' # git commit with detail in commit editor
@@ -47,6 +47,9 @@ alias cmba="cmbc;cmb" # build again
 alias cmt="cmb --target all --target test" # build and run tests
 alias cmi="cmb --target all --target install" # build and run install
 alias cmo="cmake -L build" # list cmake options
+
+alias pg_restore='pg_restore -cOd'
+alias pg_dump='pg_dump -Fc --no-acl --no-owner'
 
 # Include custom aliases
 if [[ -f ~/.aliases.private ]]; then

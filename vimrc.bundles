@@ -14,44 +14,48 @@ let g:has_async = v:version >= 800 || has('nvim')
 
 call plug#begin('~/.vim/bundle')
 
-Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
-Plug 'HerringtonDarkholme/yats.vim' " typescript
+"Plug 'HerringtonDarkholme/yats.vim' " typescript
+"Plug 'OmniSharp/omnisharp-vim'
 Plug 'airblade/vim-gitgutter' " shows git changes in the gutter
-Plug 'chriskempson/vim-tomorrow-theme'  " default theme I use
+"Plug 'chriskempson/vim-tomorrow-theme'  " default theme I use
 Plug 'christoomey/vim-run-interactive' " :RunInteractive
 Plug 'christoomey/vim-tmux-navigator' " tmux integration
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy finder
+Plug 'dense-analysis/ale'
+"Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'editorconfig/editorconfig-vim' " obeys editorconfig
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular' " text alignment
 Plug 'hashivim/vim-terraform' " terraform
 Plug 'itchyny/lightline.vim' " status line
 Plug 'kana/vim-operator-user'
-Plug 'mattn/gist-vim' " gist integration
-Plug 'maxmellon/vim-jsx-pretty' " jsx
-Plug 'octol/vim-cpp-enhanced-highlight' " C++
+"Plug 'mattn/gist-vim' " gist integration
+"Plug 'mattn/vim-lsp-settings'
+"Plug 'maxmellon/vim-jsx-pretty' " jsx
+"Plug 'octol/vim-cpp-enhanced-highlight' " C++
 Plug 'pangloss/vim-javascript' " js
 Plug 'pbrisbin/vim-mkdir' " mkdir
+"Plug 'prabirshrestha/vim-lsp'
 Plug 'preservim/vim-markdown' " markdown
-Plug 'rhysd/vim-clang-format' " clang
+Plug 'rhysd/conflict-marker.vim'
+"Plug 'rhysd/vim-clang-format' " clang
 Plug 'rust-lang/rust.vim' " rust
-Plug 'skywind3000/asyncrun.vim' " async tasks
+"Plug 'skywind3000/asyncrun.vim' " async tasks
+Plug 'tpope/vim-commentary' " comments
 Plug 'tpope/vim-dispatch' " async tasks
-Plug 'tpope/vim-dotenv'  " .env support
+"Plug 'tpope/vim-dotenv'  " .env support
 Plug 'tpope/vim-eunuch' " unix commands
 Plug 'tpope/vim-fugitive' " git
-Plug 'tpope/vim-projectionist' " project support
+"Plug 'tpope/vim-projectionist' " project support
 Plug 'tpope/vim-repeat' " repeat
-Plug 'tpope/vim-speeddating' " date
+"Plug 'tpope/vim-speeddating' " date
 Plug 'tpope/vim-surround' " shortcuts [cs ]cs
 Plug 'tpope/vim-unimpaired' " shortcuts [q ]q
 Plug 'tpope/vim-vinegar' " enhancements to netrw integrations
-Plug 'vim-scripts/tComment' " comments
-Plug 'xenoterracide/html.vim' " html
-Plug 'yuezk/vim-js' " js
- 
-if g:has_async
-  Plug 'dense-analysis/ale'
-endif
+"Plug 'vim-scripts/tComment' " comments
+"Plug 'xenoterracide/html.vim' " html
+"Plug 'yuezk/vim-js' " js
 
 if filereadable(expand("~/.vimrc.bundles.private"))
   source ~/.vimrc.bundles.private

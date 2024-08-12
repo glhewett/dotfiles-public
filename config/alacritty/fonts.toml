@@ -1,17 +1,17 @@
 [font]
-size = 20.0
+size = 18.0
 
 [font.bold]
-family = "Monaspace Radon"
-style = "Bold"
+family = "Monaspace Xenon"
+style = "SemiBold"
 
 [font.italic]
 family = "Monaspace Krypton"
-style = "Italic"
+style = "Light"
 
 [font.normal]
 family = "Monaspace Neon"
-style = "Light"
+style = "Regular"
 
 [font.glyph_offset]
 x = 0
