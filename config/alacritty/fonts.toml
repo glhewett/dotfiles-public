@@ -2,16 +2,16 @@
 size = 18.0
 
 [font.bold]
-family = "Monaspace Xenon"
-style = "SemiBold"
+family = "CaskaydiaCove Nerd Font"
+style = "Bold"
 
 [font.italic]
-family = "Monaspace Krypton"
-style = "Light"
+family = "CaskaydiaCove Nerd Font"
+style = "Italic"
 
 [font.normal]
-family = "Monaspace Neon"
-style = "Regular"
+family = "CaskaydiaCove Nerd Font"
+style = "Light"
 
 [font.glyph_offset]
 x = 0
