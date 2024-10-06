@@ -48,8 +48,8 @@ alias cmt="cmb --target all --target test" # build and run tests
 alias cmi="cmb --target all --target install" # build and run install
 alias cmo="cmake -L build" # list cmake options
 
-alias pg_restore='pg_restore -cOd'
-alias pg_dump='pg_dump -Fc --no-acl --no-owner'
+#alias pg_restore='pg_restore -cOd'
+#alias pg_dump='pg_dump -Fc --no-acl --no-owner'
 
 # Include custom aliases
 if [[ -f ~/.aliases.private ]]; then
