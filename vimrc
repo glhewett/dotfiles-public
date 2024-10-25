@@ -207,7 +207,7 @@ set statusline+=%*
 " configure lightline
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'dracula',
       \   'active': {
       \     'left': [ [ 'mode', 'paste' ],
       \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -245,9 +245,7 @@ autocmd BufNewFile *.hpp 0r ~/.skeletons/cpp.hpp
 
 " configure colors
 set termguicolors
-let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_enable_italic = 1
-colorscheme tokyonight
+colorscheme dracula
 " end configure colors
 
 set tags=./tags;/

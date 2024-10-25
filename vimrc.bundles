@@ -22,9 +22,9 @@ Plug 'christoomey/vim-run-interactive' " :RunInteractive
 Plug 'christoomey/vim-tmux-navigator' " tmux integration
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy finder
 Plug 'dense-analysis/ale'
-"Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'editorconfig/editorconfig-vim' " obeys editorconfig
-Plug 'ghifarit53/tokyonight-vim'
+"Plug 'ghifarit53/tokyonight-vim'
 Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular' " text alignment
 Plug 'hashivim/vim-terraform' " terraform
@@ -47,7 +47,7 @@ Plug 'tpope/vim-dispatch' " async tasks
 "Plug 'tpope/vim-dotenv'  " .env support
 Plug 'tpope/vim-eunuch' " unix commands
 Plug 'tpope/vim-fugitive' " git
-"Plug 'tpope/vim-projectionist' " project support
+Plug 'tpope/vim-projectionist' " project support
 Plug 'tpope/vim-repeat' " repeat
 "Plug 'tpope/vim-speeddating' " date
 Plug 'tpope/vim-surround' " shortcuts [cs ]cs
@@ -56,6 +56,7 @@ Plug 'tpope/vim-vinegar' " enhancements to netrw integrations
 "Plug 'vim-scripts/tComment' " comments
 "Plug 'xenoterracide/html.vim' " html
 "Plug 'yuezk/vim-js' " js
+"Plug 'joshdick/onedark.vim'
 
 if filereadable(expand("~/.vimrc.bundles.private"))
   source ~/.vimrc.bundles.private
