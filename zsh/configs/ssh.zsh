@@ -12,7 +12,6 @@ then
     SSH_AUTH_SOCK_ORIGINAL=$SSH_AUTH_SOCK
 else
     echo "SSH_AUTH_SOCK is not found"
-    exit 0
 fi
 
 # if the symlink does not exist or it changed, then write it.

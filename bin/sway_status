@@ -1,0 +1,9 @@
+#!/bin/bash
+
+while true
+do
+  STATUS="$(hostname)"
+  STATUS="$STATUS | $(date +'%m/%d %I:%M %p')"
+  echo $STATUS
+  sleep 10
+done

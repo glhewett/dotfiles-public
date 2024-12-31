@@ -1,16 +1,16 @@
 [font]
-size = 20.0
+size = 12.0
 
 [font.bold]
-family = "CaskaydiaCove Nerd Font"
+family = "CaskaydiaMono Nerd Font"
 style = "Bold"
 
 [font.italic]
-family = "CaskaydiaCove Nerd Font"
+family = "CaskaydiaMono Nerd Font"
 style = "Italic"
 
 [font.normal]
-family = "CaskaydiaCove Nerd Font"
+family = "CaskaydiaMono Nerd Font"
 style = "Light"
 
 [font.glyph_offset]
