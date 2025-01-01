@@ -1,5 +1,5 @@
 #!/bin/bash
-SEP="  "
+SEP=""
 BATTERY_STATES="󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰂄󰂃"
 WIFI_STATES="󰤯󰤟󰤢󰤥󰤨󰤭"
 
@@ -21,7 +21,7 @@ function wifi_info ()  {
   then
     printf "${WIFI_STATES:3:1} ${SSID}"
   else
-    printf "${WIFI_STATES:4:1}"
+    printf "${WIFI_STATES:4:1} "
   fi
 }
 
@@ -82,10 +82,6 @@ function battery_info ()  {
 
 while true
 do
-  STATUS=$SEP
-  STATUS="$STATUS$(battery_info BAT0)$SEP"
-  STATUS="$STATUS$(wifi_info)$SEP"
-  STATUS="$STATUS$(date +'%m/%d %I:%M %p')$SEP"
-  echo $STATUS
+  echo "$(wifi_info) $SEP $(battery_info BAT0) $SEP $(date +'%m/%d %I:%M %p')"
   sleep 1
 done
