@@ -1,9 +1,91 @@
 #!/bin/bash
+SEP="  "
+BATTERY_STATES="󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰂄󰂃"
+WIFI_STATES="󰤯󰤟󰤢󰤥󰤨󰤭"
+
+function wifi_info ()  {
+  STATUS=$(nmcli -t -f active,ssid,signal dev wifi | grep '^yes')
+  SSID=$(echo $STATUS | cut -d: -f2)
+  SIGNAL=$(echo $STATUS | cut -d: -f3)
+
+  if [ $SIGNAL -lt 31 ]
+  then
+    printf "${WIFI_STATES:0:1} ${SSID}"
+  elif [ $SIGNAL -lt 51 ]
+  then
+    printf "${WIFI_STATES:1:1} ${SSID}"
+  elif [ $SIGNAL -lt 71 ]
+  then
+    printf "${WIFI_STATES:2:1} ${SSID}"
+  elif [ $SIGNAL -lt 91 ]
+  then
+    printf "${WIFI_STATES:3:1} ${SSID}"
+  else
+    printf "${WIFI_STATES:4:1}"
+  fi
+}
+
+function battery_info ()  {
+  CHARGE_FULL=$(cat /sys/class/power_supply/$1/charge_full)
+  CHARGE_FULL=$(printf "%d" $CHARGE_FULL)
+  CHARGE_NOW=$(cat /sys/class/power_supply/$1/charge_now)
+  CHARGE_NOW=$(printf "%d" $CHARGE_NOW)
+  CHARGE_PERCENTAGE=$(($CHARGE_NOW*100/$CHARGE_FULL))
+  BATTERY_STATUS=$(cat /sys/class/power_supply/$1/status)
+
+  case $BATTERY_STATUS in
+    "Discharging")
+      if [ $CHARGE_PERCENTAGE -lt 10 ]
+      then
+        printf "${BATTERY_STATES:0:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 20 ]
+      then
+        printf "${BATTERY_STATES:1:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 30 ]
+      then
+        printf "${BATTERY_STATES:2:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 40 ]
+      then
+        printf "${BATTERY_STATES:3:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 50 ]
+      then
+        printf "${BATTERY_STATES:4:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 60 ]
+      then
+        printf "${BATTERY_STATES:5:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 70 ]
+      then
+        printf "${BATTERY_STATES:6:1} ${CHARGE_PERCENTAGE}%%"
+      elif [ $CHARGE_PERCENTAGE -lt 70 ]
+      then
+        printf "${BATTERY_STATES:7:1}"
+      else
+        printf "${BATTERY_STATES:8:1}"
+      fi
+      ;;
+    "Full")
+      printf "${BATTERY_STATES:9:1}"
+      ;;
+    "Charging")
+      if [ $CHARGE_PERCENTAGE -lt 50 ]
+      then
+        printf "${BATTERY_STATES:9:1} ${CHARGE_PERCENTAGE}%%"
+      else
+        printf "${BATTERY_STATES:9:1}"
+      fi
+      ;;
+    *)
+      printf "$BATTERY_STATUS $CHARGE_PERCENTAGE"
+      ;;
+  esac
+}
 
 while true
 do
-  STATUS="$(hostname)"
-  STATUS="$STATUS | $(date +'%m/%d %I:%M %p')"
+  STATUS=$SEP
+  STATUS="$STATUS$(battery_info BAT0)$SEP"
+  STATUS="$STATUS$(wifi_info)$SEP"
+  STATUS="$STATUS$(date +'%m/%d %I:%M %p')$SEP"
   echo $STATUS
-  sleep 10
+  sleep 1
 done
