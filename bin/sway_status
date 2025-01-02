@@ -2,6 +2,7 @@
 SEP=""
 BATTERY_STATES="󰁺󰁻󰁼󰁽󰁾󰁿󰂀󰂁󰂂󰂄󰂃"
 WIFI_STATES="󰤯󰤟󰤢󰤥󰤨󰤭"
+VOLUME_STATES=""
 
 function wifi_info ()  {
   STATUS=$(nmcli -t -f active,ssid,signal dev wifi | grep '^yes')
@@ -48,6 +49,7 @@ function battery_info ()  {
       then
         printf "${BATTERY_STATES:3:1} ${CHARGE_PERCENTAGE}%%"
       elif [ $CHARGE_PERCENTAGE -lt 50 ]
+  VOLUME_LEVEL=$(printf "%.0f" $VOLUME_LEVEL)
       then
         printf "${BATTERY_STATES:4:1} ${CHARGE_PERCENTAGE}%%"
       elif [ $CHARGE_PERCENTAGE -lt 60 ]
@@ -80,8 +82,31 @@ function battery_info ()  {
   esac
 }
 
+function volume_info() {
+  VOLUME_STATUS=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+  VOLUME_LEVEL=$(echo $VOLUME_STATUS | cut -d: -f2)
+  MUTED=$(echo $VOLUME_LEVEL | grep MUTED)
+
+  if [ ! -z "$MUTED" ]
+  then
+    printf "${VOLUME_STATES:3:1} "
+  else 
+    VOLUME_PERCENTAGE=$(echo "$VOLUME_LEVEL*100/1.2" | bc )
+
+    if [ $VOLUME_PERCENTAGE -lt 33 ]
+    then
+      printf "${VOLUME_STATES:0:1} ${VOLUME_PERCENTAGE}%%"
+    elif [ $VOLUME_PERCENTAGE -lt 66 ]
+    then
+      printf "${VOLUME_STATES:1:1} ${VOLUME_PERCENTAGE}%%"
+    else
+      printf "${VOLUME_STATES:2:1} ${VOLUME_PERCENTAGE}%%"
+    fi
+  fi
+}
+
 while true
 do
-  echo "$(wifi_info) $SEP $(battery_info BAT0) $SEP $(date +'%m/%d %I:%M %p')"
+  echo "$(wifi_info) $SEP $(battery_info BAT0) $SEP $(volume_info) $SEP $(date +'%m/%d %I:%M %p')"
   sleep 1
 done
