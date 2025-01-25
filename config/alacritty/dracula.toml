@@ -1,11 +1,25 @@
+# Dracula
+#---------
+# 282A36 - Black
+# 44475A - Dark Gray
+# 50FA7B - Green
+# 6272A4 - Blue
+# 8BE9FD - Cyan
+# BD93F9 - Purple
+# F1FA8C - Yellow
+# F8F8F2 - White
+# FF5555 - Red
+# FF79C6 - Magenta
+# FFB86C - Orange
+
 [colors.primary]
-background = "#282a36"
-foreground = "#f8f8f2"
-bright_foreground = "#ffffff"
+background = "#282A36"
+foreground = "#F8F8F2"
+bright_foreground = "#FFFFFF"
 
 [colors.cursor]
-text = "#282a36"
-cursor = "#f8f8f2"
+text = "#282A36"
+cursor = "#BD93F9"
 
 [colors.vi_mode_cursor]
 text = "CellBackground"
@@ -17,13 +31,13 @@ background = "#44475a"
 
 [colors.normal]
 black = "#21222c"
-red = "#ff5555"
-green = "#50fa7b"
-yellow = "#f1fa8c"
-blue = "#bd93f9"
-magenta = "#ff79c6"
-cyan = "#8be9fd"
-white = "#f8f8f2"
+red = "#FF5555"
+green = "#50FA7B"
+yellow = "#F1FA8C"
+blue = "#6272A4"
+magenta = "#FF79C6"
+cyan = "#8BE9FD"
+white = "#F8F8F2"
 
 [colors.bright]
 black = "#6272a4"
@@ -41,17 +55,17 @@ background = "#50fa7b"
 
 [colors.search.focused_match]
 foreground = "#44475a"
-background = "#ffb86c"
+background = "#FFB86C"
 
 [colors.footer_bar]
-background = "#282a36"
+background = "#282A36"
 foreground = "#f8f8f2"
 
 [colors.hints.start]
-foreground = "#282a36"
-background = "#f1fa8c"
+foreground = "#282A36"
+background = "#F1FA8C"
 
 [colors.hints.end]
-foreground = "#f1fa8c"
-background = "#282a36"
+foreground = "#F1FA8C"
+background = "#282A36"
 

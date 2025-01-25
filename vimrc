@@ -57,23 +57,6 @@ augroup vimrcEx
   autocmd BufRead,BufNewFile vimrc.local set filetype=vim
 augroup END
 
-" ALE linting events
-" augroup ale
-"   autocmd!
-"
-"   if g:has_async
-"     autocmd VimEnter *
-"       \ set updatetime=1000 |
-"       \ let g:ale_lint_on_text_changed = 0
-"     autocmd CursorHold * call ale#Queue(0)
-"     autocmd CursorHoldI * call ale#Queue(0)
-"     autocmd InsertEnter * call ale#Queue(0)
-"     autocmd InsertLeave * call ale#Queue(0)
-"   else
-"     echoerr "The thoughtbot dotfiles require NeoVim or Vim 8"
-"   endif
-" augroup END
-
 " When the type of shell script is /bin/sh, assume a POSIX-compatible
 " shell for syntax highlighting purposes.
 let g:is_posix = 1
@@ -115,13 +98,6 @@ endfunction
 
 " Switch between the last two files
 nnoremap <Leader><Leader> <C-^>
-
-" vim-test mappings
-nnoremap <silent> <Leader>t :TestFile<CR>
-nnoremap <silent> <Leader>s :TestNearest<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <Leader>gt :TestVisit<CR>
 
 " Run commands that require an interactive shell
 nnoremap <Leader>r :RunInInteractiveShell<Space>
@@ -187,18 +163,19 @@ function! AppendModeline()
 endfunction
 
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-" function! LinterStatus() abort
-"     let l:counts = ale#statusline#Count(bufnr(''))
-"
-"     let l:all_errors = l:counts.error + l:counts.style_error
-"     let l:all_non_errors = l:counts.total - l:all_errors
-"
-"     return l:counts.total == 0 ? 'OK' : printf(
-"     \   '%dW %dE',
-"     \   all_non_errors,
-"     \   all_errors
-"     \)
-" endfunction
+
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
 
 set statusline+=%#warningmsg#
 set statusline+=%{LinterStatus()}
@@ -257,16 +234,6 @@ endfunction
 nnoremap <silent> <Leader>f :call Format()<CR>
 command Format :call Format()<CR>
 
-" Codeium
-"let g:codeium_disable_bindings = 1
-"let g:codeium_manual = v:true
-" imap <script><silent><nowait><expr> <C-g> codeium#Accept()
-" imap <C-;>   <Cmd>call codeium#CycleCompletions(1)<CR>
-" imap <C-,>   <Cmd>call codeium#CycleCompletions(-1)<CR>
-" imap <C-x>   <Cmd>call codeium#Clear()<CR>
-
-" Copilot
-
 " ControlP
 if executable('fd')
     let g:ctrlp_user_command = 'fd --type file --follow --hidden --exclude .git'
@@ -282,21 +249,38 @@ endif
 
 function! EnterPasteMode() abort
   set nonumber paste
-  "GitGutterDisable()
+  GitGutterDisable()
 endfunction
 
 function! ExitPasteMode() abort
   set number nopaste
-  "GitGutterEnable()
+  call GitGutterEnable()
 endfunction
 
-" let g:ale_linters = {
-" \ 'cs': ['OmniSharp']
-" \}
+:nnoremap <leader>tc :call EnterPasteMode()<cr>
+:nnoremap <leader>tp :call ExitPasteMode()<cr>
 
-" these two changes put me in the mode where I can copy and paste
-:nnoremap <leader>n :call EnterPasteMode()<cr>
-:nnoremap <leader>N :call ExitPasteMode()<cr>
+" ALE
+let g:ale_sign_error = ''
+let g:ale_sign_warning = '󰈅'
+
+let g:ale_fixers = {
+  \ 'typescript': ['deno'],
+  \}
+
+" Copilot
+:nnoremap <leader>ais :Copilot panel<CR>
+
+let g:copilot_filetypes = {
+\ '*': v:false,
+\ 'rust': v:true,
+\ 'markdown': v:true,
+\ 'vim': v:true,
+\ }
+
+" Vim
+:nnoremap <leader>cr :so $MYVIMRC<CR>
+:nnoremap <leader>pu :PlugUpdate<CR>
 
 " Local config
 if filereadable($HOME . "/.vimrc.private")
