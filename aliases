@@ -3,11 +3,11 @@ which exa > /dev/null
 
 if [ $? -eq 0 ]; then
   alias ls='exa'
+  alias ll="exa --sort modified --long --git --all"
 else
   alias ls='ls --color=auto'
 fi
 
-alias ll="ls -al"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
 alias e="$EDITOR"
