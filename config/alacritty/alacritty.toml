@@ -46,8 +46,9 @@ live_config_reload = true
 working_directory = "None"
 import = [
   "./keybindings.toml",
-  "./fonts.toml",
-  "./dracula.toml"
+  "./dracula.toml",
+  "./CaskaydiaMono.toml",
+  "./font-size.toml",
 ]
 
 [terminal]

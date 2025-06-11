@@ -52,3 +52,8 @@ mods = "Command | Shift"
 chars = "\u0002p"
 key = "{"
 mods = "Command | Shift"
+
+[[keyboard.bindings]]
+chars = "\u001bL"
+key = "L"
+mods = "Alt"

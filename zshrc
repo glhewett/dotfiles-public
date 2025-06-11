@@ -39,3 +39,6 @@ _load_settings "$HOME/.zsh/configs"
 [[ -f ~/.zshrc.private ]] && source ~/.zshrc.private
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 [[ -f ~/.aliases ]] && source ~/.aliases
+
+# Added by Windsurf
+export PATH="/Users/glhewett/.codeium/windsurf/bin:$PATH"

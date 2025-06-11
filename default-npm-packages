@@ -2,4 +2,8 @@ lodash
 request
 express
 yarn
-sharp-cli
+xo
+prettier
+jest
+drizzle-kit
+tsoa

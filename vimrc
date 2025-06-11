@@ -1,20 +1,32 @@
-set encoding=utf-8
-
-" Leader
 let mapleader = " "
 
-set backspace=2   " Backspace deletes like most programs in insert mode
-set nobackup
-set nowritebackup
-set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set autowrite
+set backspace=2
+set colorcolumn=+1
+set encoding=utf-8
+set expandtab
 set history=50
-set ruler         " show the cursor position all the time
-set showcmd       " display incomplete commands
-set incsearch     " do incremental searching
-set laststatus=2  " Always display the status line
-set autowrite     " Automatically :write before running commands
-set modelines=0   " Disable modelines as a security precaution
+set incsearch
+set laststatus=2
+set list listchars=tab:»·,trail:·,nbsp:·
+set modelines=0
+set nobackup
+set nojoinspaces
 set nomodeline
+set noswapfile
+set nowritebackup
+set number
+set numberwidth=5
+set ruler
+set shiftround
+set shiftwidth=2
+set showcmd
+set tabstop=2
+set textwidth=80
+
+" When the type of shell script is /bin/sh, assume a POSIX-compatible
+" shell for syntax highlighting purposes.
+let g:is_posix = 1
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -22,6 +34,7 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
 endif
 
+" Load the bundles from a separate file
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endif
@@ -57,30 +70,6 @@ augroup vimrcEx
   autocmd BufRead,BufNewFile vimrc.local set filetype=vim
 augroup END
 
-" When the type of shell script is /bin/sh, assume a POSIX-compatible
-" shell for syntax highlighting purposes.
-let g:is_posix = 1
-
-" Softtabs, 2 spaces
-set tabstop=2
-set shiftwidth=2
-set shiftround
-set expandtab
-
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
-
-" Use one space, not two, after punctuation.
-set nojoinspaces
-
-" Make it obvious where 80 characters is
-set textwidth=80
-set colorcolumn=+1
-
-" Numbers
-set number
-set numberwidth=5
-
 " Tab completion
 " will insert tab at beginning of line,
 " will use completion if not at beginning
@@ -93,6 +82,7 @@ function! InsertTabWrapper()
         return "\<C-p>"
     endif
 endfunction
+
 " inoremap <Tab> <C-r>=InsertTabWrapper()<CR>
 " inoremap <S-Tab> <C-n>
 
@@ -181,20 +171,6 @@ set statusline+=%#warningmsg#
 set statusline+=%{LinterStatus()}
 set statusline+=%*
 
-" configure lightline
-set noshowmode
-let g:lightline = {
-      \ 'colorscheme': 'dracula',
-      \   'active': {
-      \     'left': [ [ 'mode', 'paste' ],
-      \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \   },
-      \   'component_function': {
-      \     'gitbranch': 'FugitiveHead'
-      \   },
-      \ }
-" end configure lightline
-
 autocmd FileType markdown setlocal spell wrap linebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist nofoldenable nonumber
 autocmd FileType ruby setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
 autocmd FileType html setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
@@ -219,11 +195,6 @@ autocmd BufNewFile *.hpp 0r ~/.skeletons/cpp.hpp
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>rv :source $MYVIMRC<cr>
 " end configure vim format
-
-" configure colors
-set termguicolors
-colorscheme dracula
-" end configure colors
 
 set tags=./tags;/
 
@@ -261,26 +232,40 @@ endfunction
 :nnoremap <leader>tp :call ExitPasteMode()<cr>
 
 " ALE
+set completeopt=menu,menuone,preview,noselect,noinsert
+
 let g:ale_sign_error = ''
 let g:ale_sign_warning = '󰈅'
+let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
+let g:ale_javascript_xo_options = "--prettier"
+let g:ale_typescript_xo_options = "--prettier"
+let g:ale_rust_rustfmt_executable = 'cargo'
+let g:ale_rust_rustfmt_options = 'fmt --'
 
 let g:ale_fixers = {
+  \ '*': ['trim_whitespace', 'remove_trailing_lines'],
+  \ 'rust': ['rustfmt'],
   \ 'typescript': ['deno'],
+  \ 'javascript': ['deno'],
+  \ 'json': ['prettier'],
+  \ 'jsonc': ['prettier'],
   \}
 
-" Copilot
-:nnoremap <leader>ais :Copilot panel<CR>
-
-let g:copilot_filetypes = {
-\ '*': v:false,
-\ 'rust': v:true,
-\ 'markdown': v:true,
-\ 'vim': v:true,
-\ }
+let g:ale_linters = {
+  \ 'rust': ['analyzer'],
+  \ 'typescript': ['deno'],
+  \ 'javascript': ['deno'],
+  \ 'json': ['prettier'],
+  \ 'jsonc': ['prettier'],
+  \}
 
 " Vim
 :nnoremap <leader>cr :so $MYVIMRC<CR>
 :nnoremap <leader>pu :PlugUpdate<CR>
+
+" Map jk to escape insert mode
+inoremap jk <Esc>
 
 " Local config
 if filereadable($HOME . "/.vimrc.private")

@@ -19,9 +19,7 @@ Plug 'christoomey/vim-run-interactive' " :RunInteractive
 Plug 'christoomey/vim-tmux-navigator' " tmux integration
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy finder
 Plug 'dense-analysis/ale'
-Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'editorconfig/editorconfig-vim' " obeys editorconfig
-Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular' " text alignment
 Plug 'hashivim/vim-terraform' " terraform
 Plug 'itchyny/lightline.vim' " status line
@@ -44,6 +42,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
+Plug 'sheerun/vim-polyglot'
 
 if filereadable(expand("~/.vimrc.bundles.private"))
   source ~/.vimrc.bundles.private
