@@ -15,17 +15,16 @@ let g:has_async = v:version >= 800 || has('nvim')
 call plug#begin('~/.vim/bundle')
 
 Plug 'airblade/vim-gitgutter' " shows git changes in the gutter
-Plug 'christoomey/vim-run-interactive' " :RunInteractive
+" Plug 'christoomey/vim-run-interactive' " :RunInteractive
 Plug 'christoomey/vim-tmux-navigator' " tmux integration
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy finder
 Plug 'dense-analysis/ale'
-Plug 'editorconfig/editorconfig-vim' " obeys editorconfig
-Plug 'godlygeek/tabular' " text alignment
-Plug 'hashivim/vim-terraform' " terraform
+" Plug 'editorconfig/editorconfig-vim' " obeys editorconfig
+" Plug 'godlygeek/tabular' " text alignment
+" Plug 'hashivim/vim-terraform' " terraform
 Plug 'itchyny/lightline.vim' " status line
-Plug 'kana/vim-operator-user'
+" Plug 'kana/vim-operator-user'
 Plug 'maximbaz/lightline-ale'
-Plug 'pangloss/vim-javascript' " js
 Plug 'pbrisbin/vim-mkdir' " mkdir
 Plug 'preservim/vim-markdown' " markdown
 Plug 'rhysd/conflict-marker.vim'
@@ -37,11 +36,9 @@ Plug 'tpope/vim-fugitive' " git
 Plug 'tpope/vim-projectionist' " project support
 Plug 'tpope/vim-unimpaired' " shortcuts [q ]q
 Plug 'tpope/vim-vinegar' " enhancements to netrw integrations
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jparise/vim-graphql'
+" Plug 'pangloss/vim-javascript'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'jparise/vim-graphql'
 Plug 'sheerun/vim-polyglot'
 
 if filereadable(expand("~/.vimrc.bundles.private"))

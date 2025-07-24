@@ -24,12 +24,8 @@ set showcmd
 set tabstop=2
 set textwidth=80
 
-" When the type of shell script is /bin/sh, assume a POSIX-compatible
-" shell for syntax highlighting purposes.
 let g:is_posix = 1
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
 endif
@@ -234,22 +230,27 @@ endfunction
 " ALE
 set completeopt=menu,menuone,preview,noselect,noinsert
 
+let js_fixers = ['prettier', 'eslint']
+
 let g:ale_sign_error = ''
 let g:ale_sign_warning = '󰈅'
 let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
-let g:ale_javascript_xo_options = "--prettier"
-let g:ale_typescript_xo_options = "--prettier"
-let g:ale_rust_rustfmt_executable = 'cargo'
-let g:ale_rust_rustfmt_options = 'fmt --'
+" let g:ale_completion_enabled = 1
+" let g:ale_javascript_xo_options = "--prettier"
+" let g:ale_typescript_xo_options = "--prettier"
+" let g:ale_rust_rustfmt_executable = 'cargo'
+" let g:ale_rust_rustfmt_options = 'fmt --'
+" let g:ale_cs_dotnet_format_executable = 'dotnet'
+" let g:ale_cs_dotnet_format_options = 'format'
 
 let g:ale_fixers = {
   \ '*': ['trim_whitespace', 'remove_trailing_lines'],
   \ 'rust': ['rustfmt'],
-  \ 'typescript': ['deno'],
-  \ 'javascript': ['deno'],
+  \ 'typescript': js_fixers,
+  \ 'javascript': js_fixers,
+  \ 'javascript.jsx': js_fixers,
   \ 'json': ['prettier'],
-  \ 'jsonc': ['prettier'],
+  \ 'css': ['prettier'],
   \}
 
 let g:ale_linters = {
@@ -257,7 +258,7 @@ let g:ale_linters = {
   \ 'typescript': ['deno'],
   \ 'javascript': ['deno'],
   \ 'json': ['prettier'],
-  \ 'jsonc': ['prettier'],
+  \ 'css': ['prettier'],
   \}
 
 " Vim
