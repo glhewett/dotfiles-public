@@ -105,21 +105,9 @@ augroup vimrcEx
   autocmd BufRead,BufNewFile vimrc.local set filetype=vim
 augroup END
 
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
+" wildmode will allow you to use tab completion in a more intuitive way
 set wildmode=list:longest,list:full
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<Tab>"
-    else
-        return "\<C-p>"
-    endif
-endfunction
-
-" inoremap <Tab> <C-r>=InsertTabWrapper()<CR>
-" inoremap <S-Tab> <C-n>
+set completeopt=menu,menuone,preview,noselect,noinsert
 
 " Switch between the last two files
 nnoremap <Leader><Leader> <C-^>
@@ -144,27 +132,12 @@ nnoremap <C-l> <C-w>l
 nnoremap ]r :ALENextWrap<CR>
 nnoremap [r :ALEPreviousWrap<CR>
 
-
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
 let g:netrw_banner = 0
-
-command! -nargs=* Wrap set wrap linebreak nolist tw=0
-
-" Append modeline after last line in buffer.
-" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
-" files.
-function! AppendModeline()
-  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
-        \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
-  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
-  call append(line("$"), l:modeline)
-endfunction
-
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 function! LinterStatus() abort
     let l:counts = ale#statusline#Count(bufnr(''))
@@ -183,38 +156,21 @@ set statusline+=%#warningmsg#
 set statusline+=%{LinterStatus()}
 set statusline+=%*
 
-autocmd FileType markdown setlocal spell wrap linebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist nofoldenable nonumber
 
 " Enable syntax highlighting in markdown code blocks
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript=js', 'typescript', 'rust', 'go', 'java', 'cpp', 'c', 'css', 'sql', 'yaml', 'json']
-autocmd FileType ruby setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
-autocmd FileType html setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
-autocmd FileType swift setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
-autocmd FileType yaml setlocal nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab nolist foldenable number
-autocmd FileType rust setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
-autocmd FileType toml setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript', 'typescript', 'rust', 'go', 'java', 'cpp', 'c', 'css', 'sql', 'yaml', 'json']
 autocmd FileType cpp setlocal nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
+autocmd FileType html setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
+autocmd FileType markdown setlocal spell wrap linebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist nofoldenable nonumber
+autocmd FileType ruby setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
+autocmd FileType rust setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
+autocmd FileType swift setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
+autocmd FileType toml setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
 autocmd FileType vim setlocal nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
+autocmd FileType yaml setlocal nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab nolist foldenable number
 
 " configure rust
 let g:rustfmt_autosave = 1
-
-" configure cpp
-autocmd BufNewFile .projections.json 0r ~/.skeletons/projections.json
-autocmd BufNewFile CMakeLists.txt 0r ~/.skeletons/CMakeLists.txt
-autocmd BufNewFile *.cpp 0r ~/.skeletons/cpp.cpp
-autocmd BufNewFile *.hpp 0r ~/.skeletons/cpp.hpp
-" end configure cpp
-
-
-set tags=./tags;/
-
-" reformatting code
-function! Format() abort
-    :echo "hello, world!"
-endfunction
-nnoremap <silent> <Leader>f :call Format()<CR>
-command Format :call Format()<CR>
 
 " ControlP
 if executable('fd')
@@ -230,21 +186,10 @@ if executable("rg")
 endif
 
 
-" set completeopt=menu,menuone,preview,noselect,noinsert
-
 let js_fixers = ['prettier', 'eslint']
-
 let g:ale_sign_error = ''
 let g:ale_sign_warning = '󰈅'
 let g:ale_fix_on_save = 1
-" let g:ale_completion_enabled = 1
-" let g:ale_javascript_xo_options = "--prettier"
-" let g:ale_typescript_xo_options = "--prettier"
-" let g:ale_rust_rustfmt_executable = 'cargo'
-" let g:ale_rust_rustfmt_options = 'fmt --'
-" let g:ale_cs_dotnet_format_executable = 'dotnet'
-" let g:ale_cs_dotnet_format_options = 'format'
-
 let g:ale_fixers = {
   \ '*': ['trim_whitespace', 'remove_trailing_lines'],
   \ 'rust': ['rustfmt'],
@@ -274,22 +219,6 @@ let g:lightline = {
       \     'gitbranch': 'FugitiveHead'
       \   },
       \ }
-
-
-function! EnterPasteMode() abort
-  set nonumber paste
-  GitGutterDisable()
-endfunction
-
-:nnoremap <leader>tc :call EnterPasteMode()<cr>
-
-function! ExitPasteMode() abort
-  set number nopaste
-  call GitGutterEnable()
-endfunction
-
-:nnoremap <leader>tp :call ExitPasteMode()<cr>
-
 let g:copilot_filetypes = {
 \ '*': v:false,
 \ 'rust': v:true,
@@ -300,16 +229,8 @@ let g:copilot_filetypes = {
 \ }
 
 :nnoremap <leader>ais :Copilot panel<CR>
-
-" configure vim format
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>rv :source $MYVIMRC<cr>
-" end configure vim format
-"
-nnoremap <leader>gp :silent %!prettier --stdin-filepath %<CR>
-
-" Map jk to escape insert mode
-inoremap jk <Esc>
 
 let g:tokyonight_style = 'night'
 let g:tokyonight_enable_italic = 1
