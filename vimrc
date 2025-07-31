@@ -23,22 +23,60 @@ set shiftwidth=2
 set showcmd
 set tabstop=2
 set textwidth=80
+set termguicolors
+set spellfile=$HOME/.vim-spell-en.utf-8.add
+set complete+=kspell
+set diffopt+=vertical
+set clipboard=exclude:.*
+set modelines=1
+set modeline
+set nowrap
+set nofoldenable
+
+syntax on
 
 let g:is_posix = 1
 
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-endif
+if &compatible
+  set nocompatible
+end
 
-" Load the bundles from a separate file
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-endif
+" Remove declared plugins
+function! s:UnPlug(plug_name)
+  if has_key(g:plugs, a:plug_name)
+    call remove(g:plugs, a:plug_name)
+  endif
+endfunction
 
-" Load matchit.vim, but only if the user hasn't installed a newer version.
-if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
-  runtime! macros/matchit.vim
-endif
+command!  -nargs=1 UnPlug call s:UnPlug(<args>)
+
+call plug#begin('~/.vim/bundle')
+
+Plug 'adelarsq/vim-matchit'
+Plug 'airblade/vim-gitgutter'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dense-analysis/ale'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'github/copilot.vim'
+Plug 'godlygeek/tabular'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'pangloss/vim-javascript'
+Plug 'pbrisbin/vim-mkdir'
+Plug 'preservim/vim-markdown'
+Plug 'rhysd/conflict-marker.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+
+call plug#end()
 
 filetype plugin indent on
 
@@ -55,6 +93,7 @@ augroup vimrcEx
 
   " Set syntax highlighting for specific file types
   autocmd BufRead,BufNewFile *.md set filetype=markdown
+  autocmd BufRead,BufNewFile *.js set filetype=javascript
   autocmd BufRead,BufNewFile .{jscs,jshint,eslint}rc set filetype=json
   autocmd BufRead,BufNewFile
     \ aliases.local,
@@ -85,9 +124,6 @@ endfunction
 " Switch between the last two files
 nnoremap <Leader><Leader> <C-^>
 
-" Run commands that require an interactive shell
-nnoremap <Leader>r :RunInInteractiveShell<Space>
-
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
@@ -108,26 +144,6 @@ nnoremap <C-l> <C-w>l
 nnoremap ]r :ALENextWrap<CR>
 nnoremap [r :ALEPreviousWrap<CR>
 
-" Map Ctrl + p to open fuzzy find (FZF)
-" nnoremap <c-p> :Files<cr>
-
-" Set spellfile to location that is guaranteed to exist, can be symlinked to
-" Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.
-set spellfile=$HOME/.vim-spell-en.utf-8.add
-
-" Autocomplete with dictionary words when spell check is on
-set complete+=kspell
-
-" Always use vertical diffs
-set diffopt+=vertical
-
-" do not connect to x server
-set clipboard=exclude:.*
-
-set modelines=1
-set modeline
-set nowrap
-set nofoldenable
 
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -168,6 +184,9 @@ set statusline+=%{LinterStatus()}
 set statusline+=%*
 
 autocmd FileType markdown setlocal spell wrap linebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist nofoldenable nonumber
+
+" Enable syntax highlighting in markdown code blocks
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript=js', 'typescript', 'rust', 'go', 'java', 'cpp', 'c', 'css', 'sql', 'yaml', 'json']
 autocmd FileType ruby setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
 autocmd FileType html setlocal nospell nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
 autocmd FileType swift setlocal nowrap nolinebreak tabstop=4 shiftwidth=4 textwidth=0 expandtab nolist foldenable number
@@ -187,10 +206,6 @@ autocmd BufNewFile *.cpp 0r ~/.skeletons/cpp.cpp
 autocmd BufNewFile *.hpp 0r ~/.skeletons/cpp.hpp
 " end configure cpp
 
-" configure vim format
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-:nnoremap <leader>rv :source $MYVIMRC<cr>
-" end configure vim format
 
 set tags=./tags;/
 
@@ -214,21 +229,8 @@ if executable("rg")
     let g:ackprg='rg --vimgrep --no-heading --smart-case'
 endif
 
-function! EnterPasteMode() abort
-  set nonumber paste
-  GitGutterDisable()
-endfunction
 
-function! ExitPasteMode() abort
-  set number nopaste
-  call GitGutterEnable()
-endfunction
-
-:nnoremap <leader>tc :call EnterPasteMode()<cr>
-:nnoremap <leader>tp :call ExitPasteMode()<cr>
-
-" ALE
-set completeopt=menu,menuone,preview,noselect,noinsert
+" set completeopt=menu,menuone,preview,noselect,noinsert
 
 let js_fixers = ['prettier', 'eslint']
 
@@ -261,18 +263,55 @@ let g:ale_linters = {
   \ 'css': ['prettier'],
   \}
 
-" Vim
-:nnoremap <leader>cr :so $MYVIMRC<CR>
-:nnoremap <leader>pu :PlugUpdate<CR>
+set noshowmode
+let g:lightline = {
+      \ 'colorscheme': 'tokyonight',
+      \   'active': {
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \   },
+      \   'component_function': {
+      \     'gitbranch': 'FugitiveHead'
+      \   },
+      \ }
+
+
+function! EnterPasteMode() abort
+  set nonumber paste
+  GitGutterDisable()
+endfunction
+
+:nnoremap <leader>tc :call EnterPasteMode()<cr>
+
+function! ExitPasteMode() abort
+  set number nopaste
+  call GitGutterEnable()
+endfunction
+
+:nnoremap <leader>tp :call ExitPasteMode()<cr>
+
+let g:copilot_filetypes = {
+\ '*': v:false,
+\ 'rust': v:true,
+\ 'markdown': v:true,
+\ 'vim': v:true,
+\ 'ts': v:true,
+\ 'js': v:true,
+\ }
+
+:nnoremap <leader>ais :Copilot panel<CR>
+
+" configure vim format
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>rv :source $MYVIMRC<cr>
+" end configure vim format
+"
+nnoremap <leader>gp :silent %!prettier --stdin-filepath %<CR>
 
 " Map jk to escape insert mode
 inoremap jk <Esc>
 
-" Local config
-if filereadable($HOME . "/.vimrc.private")
-  source ~/.vimrc.private
-endif
-
-if filereadable($HOME . "/.vimrc.local")
-  source ~/.vimrc.local
-endif
+let g:tokyonight_style = 'night'
+let g:tokyonight_enable_italic = 1
+let g:tokyonight_transparent_background = 0
+colorscheme tokyonight
