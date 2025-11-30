@@ -56,12 +56,10 @@ Plug 'adelarsq/vim-matchit'
 Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'dense-analysis/ale'
 Plug 'ghifarit53/tokyonight-vim'
-Plug 'github/copilot.vim'
 Plug 'godlygeek/tabular'
 Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+"Plug 'maximbaz/lightline-ale'
 Plug 'pangloss/vim-javascript'
 Plug 'pbrisbin/vim-mkdir'
 Plug 'preservim/vim-markdown'
@@ -139,24 +137,6 @@ nnoremap <C-l> <C-w>l
 
 let g:netrw_banner = 0
 
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
-endfunction
-
-set statusline+=%#warningmsg#
-set statusline+=%{LinterStatus()}
-set statusline+=%*
-
-
 " Enable syntax highlighting in markdown code blocks
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'javascript', 'typescript', 'rust', 'go', 'java', 'cpp', 'c', 'css', 'sql', 'yaml', 'json']
 autocmd FileType cpp setlocal nowrap nolinebreak tabstop=2 shiftwidth=2 textwidth=0 expandtab list nofoldenable number
@@ -186,28 +166,6 @@ if executable("rg")
 endif
 
 
-let js_fixers = ['prettier', 'eslint']
-let g:ale_sign_error = ''
-let g:ale_sign_warning = '󰈅'
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-  \ '*': ['trim_whitespace', 'remove_trailing_lines'],
-  \ 'rust': ['rustfmt'],
-  \ 'typescript': js_fixers,
-  \ 'javascript': js_fixers,
-  \ 'javascript.jsx': js_fixers,
-  \ 'json': ['prettier'],
-  \ 'css': ['prettier'],
-  \}
-
-let g:ale_linters = {
-  \ 'rust': ['analyzer'],
-  \ 'typescript': ['deno'],
-  \ 'javascript': ['deno'],
-  \ 'json': ['prettier'],
-  \ 'css': ['prettier'],
-  \}
-
 set noshowmode
 let g:lightline = {
       \ 'colorscheme': 'tokyonight',
@@ -219,16 +177,7 @@ let g:lightline = {
       \     'gitbranch': 'FugitiveHead'
       \   },
       \ }
-let g:copilot_filetypes = {
-\ '*': v:false,
-\ 'rust': v:true,
-\ 'markdown': v:true,
-\ 'vim': v:true,
-\ 'ts': v:true,
-\ 'js': v:true,
-\ }
 
-:nnoremap <leader>ais :Copilot panel<CR>
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>rv :source $MYVIMRC<cr>
 

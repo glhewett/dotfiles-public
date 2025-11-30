@@ -11,3 +11,6 @@ vcs = "git"
 [term]
 quiet = false
 verbose = false
+
+[target.aarch64-apple-darwin]
+rustflags = "-lc++ -l framework=Accelerate"
