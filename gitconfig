@@ -12,7 +12,7 @@
 
 [commit]
   template = ~/.gitmessage
-  gpgsign = true
+  # gpgsign = true
 
 [color]
   ui = auto
@@ -73,3 +73,5 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !gh auth git-credential
+[credential]
+	helper = store
