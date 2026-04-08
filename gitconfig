@@ -12,7 +12,6 @@
 
 [commit]
   template = ~/.gitmessage
-  # gpgsign = true
 
 [color]
   ui = auto
@@ -38,10 +37,7 @@
   required = true
 
 [gpg]
-  format = ssh
-
-[gpg "ssh"]
-  allowedSignersFile = ~/.config/git/allowed_signers
+	format = ssh
 
 [include]
   path = ~/.gitconfig.private
@@ -65,13 +61,3 @@
 
 [rebase]
   autosquash = true
-
-[credential "https://github.com"]
-	helper = 
-	helper = !gh auth git-credential
-
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !gh auth git-credential
-[credential]
-	helper = store
